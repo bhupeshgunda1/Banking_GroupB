@@ -173,7 +173,7 @@ span.psw {
 
 		<br />
 		<div>
-			<h1>Deposit Amount</h1>
+			<h1>Transfer Amount</h1>
 			<br>
 			<div align="left">
 				<h1 style="color: navy; font-size: 40px;"></h1>
@@ -181,13 +181,15 @@ span.psw {
 				<h1>Available Balance : ${param.sbalance}</h1>
 			</div>
 
-			<form:form method="POST" action="depositAmount/${param.custid}">
-
-				<form:hidden path="custid" />
+			<form:form method="POST" action="transferAmount/${param.custid}">
+			
+				<form:hidden path="custid"  />
 					Enter Amount :
-					<form:input type="text" path="Balance" required="required"/> <br> <br>
-				<input type="submit" value="Deposit Amount" />
-			</form:form>
+					<form:input type="text" path="Balance" required="required" /> <br>
+					Enter Destination Account Number :
+					<form:input type="text" path="targetCustId" required="required"/> <br> <br>
+					<input type="submit" value="Transfer Amount" />
+		</form:form>
 		</div>
 	</div>
 

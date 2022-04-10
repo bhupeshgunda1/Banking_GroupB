@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.aabms.assignment4.beans.Accounts;
+import com.aabms.assignment4.beans.Book;
 import com.aabms.assignment4.beans.Customers;
 import com.aabms.assignment4.beans.Login;
 import com.aabms.assignment4.dao.LoginDao;
@@ -27,6 +28,7 @@ import com.aabms.assignment4.dao.LoginDao;
 public class LoginController {
 	@Autowired
 	LoginDao dao;// will inject dao from xml file
+	
 
 	/*
 	 * It displays a form to input data, here "command" is a reserved request
@@ -92,7 +94,7 @@ public class LoginController {
 			if (customer.getIsAdmin().equalsIgnoreCase("Y")) {
 				return "redirect:/adminhome";
 			}
-			Float balance =dao.getBalance(customer.getCust_ID());
+			Float balance = dao.getBalance(customer.getCust_ID());
 			if(balance!=0 && balance>0.0)
 			{
 				//m.addAttribute("",customer))
@@ -175,6 +177,155 @@ public class LoginController {
 		else
 		{
 			m.addAttribute("sbalance", 0.0);
+		}
+		return "redirect:/home";
+	}
+	@RequestMapping(value = "/accountmain/{custid}", method = RequestMethod.GET)
+	public String accountmain(@PathVariable String custid, Model m) 
+	{
+		Accounts details = dao.getCustDetails(custid);
+		if (details != null)
+		{
+				m.addAttribute("sbalance", details.getBalance());
+				m.addAttribute("username", details.getF_name() + ", " +details.getL_name());
+				m.addAttribute("custid", custid);
+		}
+		return "redirect:/accounthome";
+	}
+	
+	@RequestMapping(value = "/depositamount/{custid}/{sbalance}", method = RequestMethod.GET)
+	public String depositAmount(@PathVariable String custid,@PathVariable Float sbalance, Model m) 
+	{
+		m.addAttribute("custid", custid);
+		m.addAttribute("sbalance", sbalance);
+		return "redirect:/deposit";
+	}
+	@RequestMapping(value = "/withdrawamount/{custid}/{sbalance}", method = RequestMethod.GET)
+	public String withdrawamount(@PathVariable String custid,@PathVariable Float sbalance, Model m) 
+	{
+		m.addAttribute("custid", custid);
+		m.addAttribute("sbalance", sbalance);
+		return "redirect:/withdraw";
+	}
+	@RequestMapping(value = "/transferamount/{custid}/{sbalance}", method = RequestMethod.GET)
+	public String transferamount(@PathVariable String custid,@PathVariable Float sbalance, Model m) 
+	{
+		m.addAttribute("custid", custid);
+		m.addAttribute("sbalance", sbalance);
+		return "redirect:/transfer";
+	}
+	
+	@RequestMapping("/accounthome")
+	public String accounthome(Model m) {
+		m.addAttribute("command", new Accounts());
+		return "accounthome";
+	}
+	//deposit route
+	@RequestMapping("/deposit")
+	public String deposit(Model m) {
+		m.addAttribute("command", new Accounts());
+		return "deposit";
+	}
+	
+	//withdraw route
+	@RequestMapping("/withdraw")
+	public String withdraw(Model m) {
+		m.addAttribute("command", new Accounts());
+		return "withdraw";
+	}
+	
+	//transfer route
+	@RequestMapping("/transfer")
+	public String transfer(Model m) {
+		m.addAttribute("command", new Accounts());
+		return "transfer";
+	}
+	
+	//utilities route
+		@RequestMapping("/utilities")
+		public String utilities(Model m) {
+			m.addAttribute("command", new Accounts());
+			return "utilities";
+		}
+	
+	@RequestMapping(value = "/depositAmount/{custid}", method = RequestMethod.POST)
+	public String depositAmount(@PathVariable String custid, @ModelAttribute("account") Accounts a, Model m) 
+	{
+		dao.depositMoney(custid, a.getBalance());
+		Accounts details = dao.getCustDetails(custid);
+		if (details != null)
+		{
+				m.addAttribute("sbalance", details.getBalance());
+				m.addAttribute("username", details.getF_name() + ", " +details.getL_name());
+				m.addAttribute("custid", custid);
+		}
+		else
+		{
+			m.addAttribute("sbalance", 0.0);
+			m.addAttribute("username", "test");
+			m.addAttribute("custid", "0");
+		}
+		return "redirect:/home";
+	}
+	
+	@RequestMapping(value = "/withdrawAmount/{custid}", method = RequestMethod.POST)
+	public String withdrawAmount(@PathVariable String custid, @ModelAttribute("account") Accounts a, Model m) 
+	{
+		dao.drawMoney(custid, a.getBalance());
+		Accounts details = dao.getCustDetails(custid);
+		if (details != null)
+		{
+				m.addAttribute("sbalance", details.getBalance());
+				m.addAttribute("username", details.getF_name() + ", " +details.getL_name());
+				m.addAttribute("custid", custid);
+		}
+		else
+		{
+			m.addAttribute("sbalance", 0.0);
+			m.addAttribute("username", "test");
+			m.addAttribute("custid", "0");
+		}
+		return "redirect:/home";
+	}
+	
+	@RequestMapping(value = "/transferAmount/{custid}", method = RequestMethod.POST)
+	public String transferAmount(@PathVariable String custid, @ModelAttribute("account") Accounts a, Model m) 
+	{
+		int count = dao.drawMoney(custid, a.getBalance());
+		if(count  > 0)
+			dao.depositMoney(a.getTargetCustId(), a.getBalance());
+		Accounts details = dao.getCustDetails(custid);
+		if (details != null)
+		{
+				m.addAttribute("sbalance", details.getBalance());
+				m.addAttribute("username", details.getF_name() + ", " +details.getL_name());
+				m.addAttribute("custid", custid);
+		}
+		else
+		{
+			m.addAttribute("sbalance", 0.0);
+			m.addAttribute("username", "test");
+			m.addAttribute("custid", "0");
+		}
+		return "redirect:/home";
+	}
+	
+	@RequestMapping(value = "/utilities/{custid}", method = RequestMethod.POST)
+	public String utilitiesAmount(@PathVariable String custid, @ModelAttribute("account") Accounts a, Model m) 
+	{
+		dao.payBill(custid, a.getBalance());
+		Accounts details = dao.getCustDetails(custid);
+		if (details != null)
+		{
+				m.addAttribute("sbalance", details.getBalance());
+				m.addAttribute("username", details.getF_name() + ", " +details.getL_name());
+				m.addAttribute("custid", custid);
+		}
+		else
+		{
+			m.addAttribute("sbalance", 0.0);
+			m.addAttribute("username", "test");
+			m.addAttribute("custid", "0");
 		}
 		return "redirect:/home";
 	}

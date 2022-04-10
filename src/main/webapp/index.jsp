@@ -22,7 +22,7 @@ body
 <body>
 	<H2>INTERNET BANKING</H2>
 <form>
-	<h3>
+	    <h3>
 		New to Internet Banking - <a href="registerUser"> Register here </a>
 		</h3>
 		<h3>

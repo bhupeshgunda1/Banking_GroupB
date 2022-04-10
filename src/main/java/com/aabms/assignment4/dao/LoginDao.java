@@ -76,7 +76,13 @@ public class LoginDao {
 		String sql = "select A.Balance from Accounts A, Customers C  where A.Cust_ID = C.Cust_ID and C.Cust_ID = ?";
 		return template.queryForObject(sql, new Object[] { cust_ID }, Float.class);
 	}
-
+	
+	@SuppressWarnings("deprecation")
+	public Accounts getCustDetails(String cust_ID) {
+		String sql = "select A.Balance, C.username, C.f_name, C.l_name from Accounts A, Customers C  where A.Cust_ID = C.Cust_ID and C.Cust_ID = ?";
+		return template.queryForObject(sql, new Object[] { cust_ID }, new BeanPropertyRowMapper<Accounts>(Accounts.class));
+	}
+	
 	@SuppressWarnings("deprecation")
 	public Customers customerLoginCheck(Customers c) {
 		String sql = "select * from Customers where username=? and password=?";
@@ -100,6 +106,48 @@ public class LoginDao {
 	    "where Cust_ID= " + p.getCust_ID();
 		return template.update(sql);
 	}
+	
+
+	public void depositMoney(String custid, String amount) {
+	try {
+			Float f = Float.parseFloat(amount);
+			String sql = "update Accounts set Balance = (Balance+ " + f + ") where Cust_ID='" + custid + "'";
+			template.update(sql);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public int drawMoney(String custid, String amount) {
+		int count = 0;
+		try {
+			
+				Float f = Float.parseFloat(amount);
+				String sql = "update Accounts set Balance = (Balance- " + f + ") where Cust_ID='" + custid + "'";
+				count = template.update(sql);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		return count;
+		}
+	
+	public int payBill(String custid, String amount) {
+		int count = 0;
+		try {
+			
+				Float f = Float.parseFloat(amount);
+				String sql = "update Accounts set Balance = (Balance- " + f + ") where Cust_ID='" + custid + "'";
+				count = template.update(sql);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		return count;
+		}
+	
+	
 	
 }
 

@@ -5,7 +5,12 @@ public class Accounts {
 	private int Account_number;
 	private int Account_Type_ID;
 	private String Cust_ID;
-	private float Balance;
+	private String Balance;
+	private String custid;
+	private String username;
+	private String targetCustId;
+	private String f_name;
+	private String l_name;
 	
 	public int getAccount_number() {
 		return Account_number;
@@ -25,11 +30,41 @@ public class Accounts {
 	public void setCust_ID(String cust_ID) {
 		Cust_ID = cust_ID;
 	}
-	public float getBalance() {
+	public String getBalance() {
 		return Balance;
 	}
-	public void setBalance(float balance) {
+	public void setBalance(String balance) {
 		Balance = balance;
+	}
+	public String getCustid() {
+		return custid;
+	}
+	public void setCustid(String custid) {
+		this.custid = custid;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getTargetCustId() {
+		return targetCustId;
+	}
+	public void setTargetCustId(String targetCustId) {
+		this.targetCustId = targetCustId;
+	}
+	public String getL_name() {
+		return l_name;
+	}
+	public void setL_name(String l_name) {
+		this.l_name = l_name;
+	}
+	public String getF_name() {
+		return f_name;
+	}
+	public void setF_name(String f_name) {
+		this.f_name = f_name;
 	}
 	
 	

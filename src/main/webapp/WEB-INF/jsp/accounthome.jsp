@@ -156,10 +156,20 @@ span.psw {
 <body>
 	<div class="container">
 		<div class="navbar">
+			
+
 			<div class="dropdown">
-				<button class="dropbtn">Home</button>
+				<button class="dropbtn">Accounts</button>
 				<div class="dropdown-content">
-					<a href="accountmain/${param.custid}">Home Page</a>
+					<a href="chequingaccount.jsp">CHEQUING</a> 
+					<a href="savingsaccount.jsp">SAVINGS</a>
+				</div>
+			</div>
+			
+				<div class="dropdown">
+				<button class="dropbtn">Utility Payments</button>
+				<div class="dropdown-content">
+					<a href="utilities.jsp">Pay Utility Bill</a>
 				</div>
 			</div>
 
@@ -173,21 +183,26 @@ span.psw {
 
 		<br />
 		<div>
-			<h1>Deposit Amount</h1>
+			<h1>WELCOME TO ONINE BANKING</h1>
 			<br>
 			<div align="left">
 				<h1 style="color: navy; font-size: 40px;"></h1>
-				<h1>Customer ID : ${param.custid}</h1>
-				<h1>Available Balance : ${param.sbalance}</h1>
+				<h1>Welcome ${param.username}</h1>
 			</div>
 
-			<form:form method="POST" action="depositAmount/${param.custid}">
-
-				<form:hidden path="custid" />
-					Enter Amount :
-					<form:input type="text" path="Balance" required="required"/> <br> <br>
-				<input type="submit" value="Deposit Amount" />
-			</form:form>
+			<div align="center">
+				<h1 style="color: navy; font-size: 40px;"></h1>
+				<h1>Savings Account Balance : ${param.sbalance}</h1>
+				<h1>Customer ID : ${param.custid}</h1>
+			</div>
+		
+			<br> <br>
+			<div align="center">
+				<!-- <a href="deposit?custid=${param.custid}"> Deposit</a>   -->
+				 <a href="depositamount/${param.custid}/${param.sbalance}"> Deposit</a>
+				 <a href="withdrawamount/${param.custid}/${param.sbalance}">Draw Money </a> 
+				 <a href="transferamount/${param.custid}/${param.sbalance}"> Transfer Money </a>
+			</div>
 		</div>
 	</div>
 

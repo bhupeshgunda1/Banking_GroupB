@@ -8,6 +8,7 @@ public class Utilities {
 	private String Biller_Name;
 	private String Cust_ID;
 	private Date Bill_date;
+	private int dueAmount;
 	
 	public String getBiller_ID() {
 		return Biller_ID;

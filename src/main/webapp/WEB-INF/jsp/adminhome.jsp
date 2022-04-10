@@ -180,31 +180,7 @@ span.psw {
 					<a href="adminhome">Delete Transaction</a>
 				</div>
 			</div>
-			
-			
-			<div class="dropdown">
-				<button class="dropbtn">Member</button>
-				<div class="dropdown-content">
-					<a href="memberform">Add Member</a> <a href="viewmember">View
-						Member</a>
-				</div>
-			</div>
-
-			<div class="dropdown">
-				<button class="dropbtn">Publisher</button>
-				<div class="dropdown-content">
-					<a href="publisherform">Add Publisher</a> <a href="viewpublisher">View
-						Publisher</a>
-				</div>
-			</div>
-
-			<div class="dropdown">
-				<button class="dropbtn">Book</button>
-				<div class="dropdown-content">
-					<a href="bookform">Add Book</a> <a href="viewbook">View Book</a> <a
-						href="borrowbook">Issue Book</a>
-				</div>
-			</div>
+		
 
 			<div class="dropdown">
 				<button class="dropbtn">User</button>
